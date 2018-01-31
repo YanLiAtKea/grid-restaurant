@@ -1,3 +1,6 @@
+////////////////// display extra info accordingly
+
+
 let soldOuts = document.querySelectorAll('.sold-out-status');
 
 ////////////////check extra info /////////////////
@@ -11,6 +14,7 @@ let allergens = document.querySelectorAll('.allergens');
 function checkContent(a){
     if(a.textContent){
         a.style.display = "inherit";
+        a. textContent += " *";
     }
 }
 discount.forEach(checkContent);
@@ -19,9 +23,21 @@ vegetar.forEach(checkContent);
 alcohol.forEach(checkContent);
 allergens.forEach(checkContent);
 
-// display extra info accordingly
+// if has discount price, then original price use line-through
+discount.forEach(checkDiscount);
+function checkDiscount(d){
+    if(/\d/.test(d.textContent)){
+        let newPrice = d.textContent.slice(0, -1); // remove the * set by previous fn
+        let originalPrice = d.previousElementSibling;
+        originalPrice.style.textDecoration = "line-through";
+        originalPrice.style.fontSize = ".7em";
+        d.textContent = "Now: " + newPrice;
+    } else {
 
-///////////////// show long description ///////////////
+    }
+}
+
+///////////////// show long description when click on read-more ///////////////
 let readMore = document.querySelectorAll('.read-more');
 readMore.forEach(clickReadMore);
 function clickReadMore(r){
@@ -33,7 +49,7 @@ function clickReadMore(r){
     }
 }
 
-///////////////// hide long description ///////////////
+///////////////// hide long description when click on X ///////////////
 let closeReadMore = document.querySelectorAll('.close-read-more');
 closeReadMore.forEach(clickCloseReadMore);
 function clickCloseReadMore(r){
@@ -55,6 +71,7 @@ function filterVegetar(){
     allergentButton.classList.remove('on');
     alcoholButton.classList.remove('on');
     soldOutButton.classList.remove('on');
+    discountButton.classList.remove('on');
     // when filter on, border turns red
     vegetarButton.classList.toggle('on');
     let vegetars = document.querySelectorAll('.veg-status');
@@ -78,6 +95,7 @@ function filterAllergens(){
     vegetarButton.classList.remove('on');
     alcoholButton.classList.remove('on');
     soldOutButton.classList.remove('on');
+    discountButton.classList.remove('on');
     // when filter on, border turns red
     allergentButton.classList.toggle('on');
     let allergens = document.querySelectorAll('.allergens');
@@ -101,6 +119,7 @@ function filterAlcohol(){
     vegetarButton.classList.remove('on');
     allergentButton.classList.remove('on');
     soldOutButton.classList.remove('on');
+    discountButton.classList.remove('on');
     // when filter on, border turns red
     alcoholButton.classList.toggle('on');
     let alcohols = document.querySelectorAll('.alcohol-status');
@@ -124,6 +143,7 @@ function filterSoldOut(){
     vegetarButton.classList.remove('on');
     alcoholButton.classList.remove('on');
     allergentButton.classList.remove('on');
+    discountButton.classList.remove('on');
     // when filter on, border turns red
     soldOutButton.classList.toggle('on');
     soldOuts.forEach(toggleSoldOut);
@@ -137,6 +157,31 @@ function filterSoldOut(){
         }
     }
 }
+// discount
+let onlyShowDiscount = false;
+let discountButton = document.querySelector('button.discount');
+discountButton.addEventListener('click', filterDiscount);
+function filterDiscount(){
+    // remove other filters
+    vegetarButton.classList.remove('on');
+    alcoholButton.classList.remove('on');
+    allergentButton.classList.remove('on');
+    soldOutButton.classList.remove('on');
+    // when filter on, border turns red
+    discountButton.classList.toggle('on');
+    let discounts = document.querySelectorAll('.discount-price');
+    discounts.forEach(toggleDiscount);
+    function toggleDiscount(v){
+        if(v.textContent && discountButton.classList.contains('on')){
+            v.parentElement.parentElement.style.display = "inherit";
+        } else if(!v.textContent && discountButton.classList.contains('on')){
+            v.parentElement.parentElement.style.display = "none";
+        } else if (!soldOutButton.classList.contains('on')){
+            v.parentElement.parentElement.style.display = "inherit";
+        }
+    }
+}
+// end of filters
 
 // sold-outs when shown
 soldOuts.forEach(dimSoldOut);
@@ -180,4 +225,3 @@ function showStars(n){
         n.innerHTML = "&star; &star; &star; &star; &star;";
     }
 }
-
