@@ -1,6 +1,5 @@
 /*
 add click area around close X
-show stars img instead of stars nr
 
 */
 * {
@@ -8,9 +7,7 @@ show stars img instead of stars nr
     padding: 0;
     box-sizing: border-box;
     position: relative;
-}
-.hide {
-    display: none;
+    font-family: sans-serif;
 }
 h1 {
     font-size: 2.3em;
@@ -43,7 +40,7 @@ button {
     border: 2px solid #aaa;
     border-radius: 1.5em;
     padding: 0 1em;
-
+    outline: none;
 }
 button.on {
     border: 2px solid rgba(255,0,0,.7);
@@ -58,6 +55,7 @@ button.on {
     display: grid;
     grid-gap: 1em;
     grid-template-columns: 1fr;
+    border-bottom: 1px solid #777;
 }
 .course h4 {
     grid-row: 1/2;
@@ -88,6 +86,9 @@ p.read-more {
     background-color: rgba(255,255,255,.7);
     z-index: 1;
 }
+.long-description p:nth-of-type(2){
+    font-size: .9em;
+}
 p.close-read-more {
     cursor: pointer;
     font-size: 23px;
@@ -96,7 +97,9 @@ p.close-read-more {
 .extra-info p {
     display: none;
 }
-
+.extra-info {
+    border-right: 1px solid #777;
+}
 @media screen and (min-width: 560px) {
     body {
         padding: 5%;
@@ -104,6 +107,7 @@ p.close-read-more {
     .course {
         grid-template-columns: 2fr 5fr;
         grid-template-rows: 2em auto 2em 2em;
+        border-bottom: none;
     }
     .course h4 {
         grid-column: 1/-1;
@@ -118,7 +122,6 @@ p.close-read-more {
 }
 
 @media screen and (min-width: 768px) {
-
     .category {
         grid-template-columns: 1fr 1fr;
         grid-gap: 4em;
@@ -126,6 +129,7 @@ p.close-read-more {
     .course {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+        border-bottom: 1px solid #777;
     }
     .course h4, .course-intro, .price, .extra-info {
         grid-column: 1/-1;
@@ -140,6 +144,7 @@ p.close-read-more {
     .course {
         grid-template-columns: 2fr 5fr;
         grid-template-rows: 2em auto 2em 2em;
+        border-bottom: none;
     }
     .course h4 {
         grid-column: 1/-1;

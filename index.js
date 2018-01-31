@@ -1,7 +1,4 @@
-// if long desc is empty, hide "read more"
-
 let soldOuts = document.querySelectorAll('.sold-out-status');
-
 
 ////////////////check extra info /////////////////
 let discount = document.querySelectorAll('.discount-price');
@@ -30,7 +27,7 @@ readMore.forEach(clickReadMore);
 function clickReadMore(r){
     r.addEventListener('click', showLongDes);
     function showLongDes(){
-        let longDescription = r.parentElement.nextSibling.nextSibling; // ?????????? why next next is the img???
+        let longDescription = r.parentElement.nextElementSibling; // ?????????? nextSibling vs nextElementSibling. nextSibling needs 2 times to reach element. see below as well
         longDescription.style.zIndex = "-1";
         console.log(longDescription);
     }
@@ -145,6 +142,42 @@ function filterSoldOut(){
 soldOuts.forEach(dimSoldOut);
 function dimSoldOut(s){
     if(s.textContent){
-        s.parentElement.parentElement.style.opacity = ".3";
+        s.parentElement.parentElement.style.opacity = ".5";
     }
 }
+
+// if long desc is empty, hide "read more"
+let longDescP = document.querySelectorAll('.long-description p:nth-of-type(2)');
+longDescP.forEach(checkLongDescP);
+function checkLongDescP(l){
+    if(l.textContent){
+        l.parentElement.previousElementSibling.previousElementSibling.lastElementChild.style.display = "none";
+    }
+}
+
+//show nr of stars based on nr from database
+let starNr = document.querySelectorAll('.stars');
+starNr.forEach(showStars);
+function showStars(n){
+    if(/\d/.test(n.textContent)){
+        let filledStar = "&starf; ";
+        let emptyStar = "&star; ";
+        let filledStarNr = parseInt(n.textContent);
+        let allFilled = filledStar.repeat(filledStarNr);
+        let allEmpty = emptyStar.repeat(5-filledStarNr);
+        n.innerHTML = allFilled + allEmpty;
+
+    /* !!!!!!! if only change innerHtml using html entities, the entity will be displayed as text. SOMETIMES
+        let filledStar = document.createTextNode('&starf; '); // !!!!!!! if only change innerHtml using html entities, the entity will be displayed as text
+        let filledStarNr = parseInt(n.textContent);
+        console.log(filledStar);
+        let allFilled = filledStar.data.repeat(filledStarNr);
+        let emptyStar = document.createTextNode('&star; ');
+        let allEmpty = emptyStar.data.repeat(5-filledStarNr);
+        n.innerHTML = allFilled + allEmpty;
+    */
+    } else {
+        n.innerHTML = "&star; &star; &star; &star; &star;";
+    }
+}
+
