@@ -195,7 +195,7 @@ function dimSoldOut(s){
 let longDescP = document.querySelectorAll('.long-description p:nth-of-type(2)');
 longDescP.forEach(checkLongDescP);
 function checkLongDescP(l){
-    if(l.textContent){
+    if(!l.textContent){
         l.parentElement.previousElementSibling.previousElementSibling.lastElementChild.style.display = "none";
     }
 }
